@@ -1,0 +1,27 @@
+{
+  "name": "pikilines-api",
+  "version": "1.0.0",
+  "description": "API REST y Vista para la Base de Datos del Refugio Los Pikilines",
+  "main": "index.js",
+  "scripts": {
+    "swagger": "node config/swagger.js",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "refugio",
+    "pikilines",
+    "sqlite",
+    "express",
+    "api"
+  ],
+  "author": "Joshua Melgarejo Villasanti",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
