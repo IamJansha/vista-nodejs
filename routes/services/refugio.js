@@ -7,6 +7,27 @@ const logs = require('../../structs/logs');
 // --- RUTA GET /api/refugio ---
 // Devuelve la información institucional del refugio y capacidad/consumo por especie
 router.get('/', async (req, res) => {
+    /*
+        #swagger.tags = ['Refugio y Catálogos']
+        #swagger.summary = 'Obtener información institucional, capacidad y consumo del refugio'
+        #swagger.description = 'Devuelve la ficha institucional del Refugio Los Pikilines (como objeto clave-valor y como lista de registros) junto con los parámetros de capacidad máxima, población total y consumo de alimento por especie.'
+        #swagger.responses[200] = {
+            description: 'Información institucional y parámetros del refugio.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/RefugioInfoCompleta' }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno del servidor al obtener información del refugio.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const infoResult = await db.query('SELECT id_info, clave, valor FROM info_refugio ORDER BY id_info ASC');
 
@@ -49,6 +70,27 @@ router.get('/', async (req, res) => {
 // --- RUTA GET /api/refugio/catalogos ---
 // Devuelve todos los catálogos 3FN para poblar filtros (selects) en el frontend
 router.get('/catalogos', async (req, res) => {
+    /*
+        #swagger.tags = ['Refugio y Catálogos']
+        #swagger.summary = 'Obtener todos los catálogos normalizados (3FN)'
+        #swagger.description = 'Devuelve las tablas catálogo del modelo relacional en 3FN (especies, etapas, tamanos, estados, sectores, tiposInsumo y donantes) listas para poblar selectores y filtros en el frontend.'
+        #swagger.responses[200] = {
+            description: 'Catálogos normalizados en 3FN.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/RefugioCatalogos' }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno del servidor al obtener los catálogos.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const [
             especies,

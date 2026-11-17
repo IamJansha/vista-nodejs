@@ -11,6 +11,7 @@ const resumenRoutes = require('./services/resumen');
 const refugioRoutes = require('./services/refugio');
 
 const swaggerOutputPath = path.resolve(__dirname, '..', 'config', 'swagger-output.json');
+const dashboardHtmlPath = path.resolve(__dirname, '..', 'public', 'static', 'dashboard', 'html', 'dashboard.html');
 
 // --- Swagger UI Documentation ---
 router.use('/api-docs', swaggerUi.serve, (req, res, next) => {
@@ -43,6 +44,7 @@ router.get('/api', (req, res) => {
     res.json({
         name: 'API Refugio Los Pikilines (3FN + Native SQL)',
         version: '1.0.0',
+        dashboard: 'http://localhost:3000/',
         swagger: 'http://localhost:3000/api-docs',
         endpoints: {
             animales: {
@@ -71,20 +73,21 @@ router.get('/api', (req, res) => {
     });
 });
 
-// --- Static Files (listo para cuando tu compañera agregue public/static) ---
-const staticDir = path.resolve(__dirname, '..', 'public', 'static');
-if (fs.existsSync(staticDir)) {
-    router.use('/static', express.static(staticDir));
-}
+// --- Static Files ---
+router.use('/static', express.static(path.resolve(__dirname, '..', 'public', 'static')));
+
+router.get('/dashboard', (req, res) => {
+    // #swagger.ignore = true
+    res.sendFile(dashboardHtmlPath);
+});
 
 router.get('*', (req, res) => {
     // #swagger.ignore = true
     if (req.path.startsWith('/api/')) {
         return res.status(404).json({ error: 'Endpoint de API no encontrado' });
     }
-    const indexHtml = path.resolve(__dirname, '..', 'public', 'static', 'homepage', 'html', 'index.html');
-    if (fs.existsSync(indexHtml)) {
-        return res.sendFile(indexHtml);
+    if (fs.existsSync(dashboardHtmlPath)) {
+        return res.sendFile(dashboardHtmlPath);
     }
     res.redirect('/api-docs');
 });
