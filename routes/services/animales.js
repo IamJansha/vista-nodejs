@@ -8,6 +8,90 @@ const logs = require('../../structs/logs');
 // --- RUTA GET /api/animales ---
 // Consulta nativa con JOINs sobre las tablas normalizadas (3FN) y filtros opcionales
 router.get('/', async (req, res) => {
+    /*
+        #swagger.tags = ['Animales']
+        #swagger.summary = 'Listar animales del refugio con filtros opcionales'
+        #swagger.description = 'Ejecuta una consulta SQL nativa con JOIN sobre las tablas normalizadas (animales, especies, etapas_edad, tamanos, sectores, estados_animal y ficha_medica). Permite filtrar por catálogos o búsqueda libre.'
+        #swagger.parameters['especie'] = {
+            in: 'query',
+            description: 'Filtrar por especie del animal',
+            required: false,
+            schema: { '@enum': ['Perro', 'Gato'] }
+        }
+        #swagger.parameters['sexo'] = {
+            in: 'query',
+            description: 'Filtrar por sexo biológico',
+            required: false,
+            schema: { '@enum': ['Macho', 'Hembra'] }
+        }
+        #swagger.parameters['etapa'] = {
+            in: 'query',
+            description: 'Filtrar por etapa de edad',
+            required: false,
+            schema: { '@enum': ['Cachorro', 'Joven', 'Adulto', 'Senior'] }
+        }
+        #swagger.parameters['tamano'] = {
+            in: 'query',
+            description: 'Filtrar por tamaño físico',
+            required: false,
+            schema: { '@enum': ['Chico', 'Mediano', 'Grande'] }
+        }
+        #swagger.parameters['sector'] = {
+            in: 'query',
+            description: 'Filtrar por sector del refugio',
+            required: false,
+            schema: { '@enum': ['Patio Principal', 'Sala Max', 'Jaula de cachorros', 'Catio'] }
+        }
+        #swagger.parameters['estado'] = {
+            in: 'query',
+            description: 'Filtrar por estado de adopción o internación',
+            required: false,
+            schema: { '@enum': ['Disponible', 'En tratamiento', 'Hogar temporal', 'Adoptado'] }
+        }
+        #swagger.parameters['esterilizado'] = {
+            in: 'query',
+            description: 'Filtrar por estado de esterilización en ficha médica',
+            required: false,
+            schema: { '@enum': ['Sí', 'No', 'Pendiente'] }
+        }
+        #swagger.parameters['vacunas'] = {
+            in: 'query',
+            description: 'Filtrar por estado de vacunación al día',
+            required: false,
+            schema: { '@enum': ['Sí', 'Parcial', 'No'] }
+        }
+        #swagger.parameters['desparasitado'] = {
+            in: 'query',
+            description: 'Filtrar por estado de desparasitación',
+            required: false,
+            schema: { '@enum': ['Sí', 'Pendiente', 'No'] }
+        }
+        #swagger.parameters['search'] = {
+            in: 'query',
+            description: 'Búsqueda de texto libre por código (PK-XXX), nombre, descripción física, temperamento o condiciones médicas',
+            required: false,
+            schema: { type: 'string' }
+        }
+        #swagger.responses[200] = {
+            description: 'Listado de animales obtenido exitosamente.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/AnimalListado' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno del servidor al obtener animales.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     const {
         especie,
         sexo,
@@ -117,6 +201,41 @@ router.get('/', async (req, res) => {
 // --- RUTA GET /api/animales/:id ---
 // Obtiene el detalle completo de un animal y su ficha médica asociada
 router.get('/:id', async (req, res) => {
+    /*
+        #swagger.tags = ['Animales']
+        #swagger.summary = 'Obtener detalle de un animal por ID y su ficha médica'
+        #swagger.description = 'Devuelve la información completa del animal identificado por su código (ej. PK-001), incluyendo los IDs de catálogos normalizados y su objeto ficha_medica asociado.'
+        #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'Código único del animal (ej. PK-001 a PK-048)',
+            required: true,
+            '@schema': { type: 'string', example: 'PK-001' }
+        }
+        #swagger.responses[200] = {
+            description: 'Detalle del animal y su ficha médica.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/AnimalDetalle' }
+                }
+            }
+        }
+        #swagger.responses[404] = {
+            description: 'Animal no encontrado.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorNotFound' }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno del servidor al obtener el detalle del animal.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     const idAnimal = req.params.id.toUpperCase();
 
     try {

@@ -8,6 +8,70 @@ const logs = require('../../structs/logs');
 // --- RUTA GET /api/donaciones ---
 // Consulta nativa con JOINs sobre donaciones, tipos_insumo y donantes
 router.get('/', async (req, res) => {
+    /*
+        #swagger.tags = ['Donaciones']
+        #swagger.summary = 'Listar donaciones e insumos recibidos'
+        #swagger.description = 'Consulta las donaciones registradas uniendo las tablas normalizadas donaciones, tipos_insumo y donantes. Permite filtrar por categoría de insumo, donante, rango de fechas o búsqueda libre.'
+        #swagger.parameters['tipo'] = {
+            in: 'query',
+            description: 'Filtrar por nombre del tipo de insumo',
+            required: false,
+            schema: {
+                '@enum': [
+                    'Alimento Perro',
+                    'Alimento Gato',
+                    'Piedritas Sanitarias',
+                    'Medicamentos',
+                    'Limpieza',
+                    'Mantas/Accesorios',
+                    'Otro'
+                ]
+            }
+        }
+        #swagger.parameters['donante'] = {
+            in: 'query',
+            description: 'Filtrar por coincidencia parcial en el nombre del grupo o persona donante',
+            required: false,
+            schema: { type: 'string' }
+        }
+        #swagger.parameters['desde'] = {
+            in: 'query',
+            description: 'Fecha inicial en formato YYYY-MM-DD (inclusive)',
+            required: false,
+            '@schema': { type: 'string', example: '2026-09-01' }
+        }
+        #swagger.parameters['hasta'] = {
+            in: 'query',
+            description: 'Fecha final en formato YYYY-MM-DD (inclusive)',
+            required: false,
+            '@schema': { type: 'string', example: '2026-11-30' }
+        }
+        #swagger.parameters['search'] = {
+            in: 'query',
+            description: 'Búsqueda libre por código (DON-XXX), descripción del producto, donante u observaciones',
+            required: false,
+            schema: { type: 'string' }
+        }
+        #swagger.responses[200] = {
+            description: 'Listado de donaciones obtenido exitosamente.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/Donacion' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno del servidor al obtener donaciones.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     const { tipo, donante, desde, hasta, search } = req.query;
 
     try {
@@ -72,6 +136,41 @@ router.get('/', async (req, res) => {
 
 // --- RUTA GET /api/donaciones/:id ---
 router.get('/:id', async (req, res) => {
+    /*
+        #swagger.tags = ['Donaciones']
+        #swagger.summary = 'Obtener detalle de una donación por ID'
+        #swagger.description = 'Devuelve el registro completo de una donación específica identificada por su código (ej. DON-001).'
+        #swagger.parameters['id'] = {
+            in: 'path',
+            description: 'Código único de la donación (ej. DON-001 a DON-012)',
+            required: true,
+            '@schema': { type: 'string', example: 'DON-008' }
+        }
+        #swagger.responses[200] = {
+            description: 'Detalle de la donación.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/Donacion' }
+                }
+            }
+        }
+        #swagger.responses[404] = {
+            description: 'Donación no encontrada.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorNotFound' }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno del servidor al obtener la donación.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     const idDonacion = req.params.id.toUpperCase();
 
     try {
