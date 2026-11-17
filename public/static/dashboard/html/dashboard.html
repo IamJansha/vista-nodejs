@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refugio Los Pikilines - Consulta de Datos</title>
+    <link rel="stylesheet" href="/static/dashboard/css/dashboard.css">
+    <script type="module" src="/static/dashboard/js/dashboard-main.js"></script>
+</head>
+<body>
+
+<div id="admin-app" class="dashboard-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Refugio Los Pikilines</h2>
+            <small>Base de Datos (3FN)</small>
+        </div>
+
+        <ul class="nav-list primary-nav">
+            <li><a href="#" data-view="view-resumen" class="nav-link active">1. Resúmenes</a></li>
+            <li><a href="#" data-view="view-animales" class="nav-link">2. Animales</a></li>
+            <li><a href="#" data-view="view-donaciones" class="nav-link">3. Donaciones</a></li>
+            <li><a href="#" data-view="view-refugio" class="nav-link">4. Datos del Refugio</a></li>
+        </ul>
+
+        <ul class="nav-list secondary-nav">
+            <li><a href="/api-docs" target="_blank" class="nav-link">Ver Swagger API</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <!-- ==================== 1. RESÚMENES (POR PARTES) ==================== -->
+        <section id="view-resumen" class="dashboard-view active">
+            <div class="view-header">
+                <h1>Resúmenes Estadísticos</h1>
+                <span>Selecciona una parte para consultar</span>
+            </div>
+
+            <div class="sub-nav" id="resumen-subnav">
+                <button type="button" class="sub-tab active" data-part="kpis">Indicadores Generales</button>
+                <button type="button" class="sub-tab" data-part="estados">Por Estado Actual</button>
+                <button type="button" class="sub-tab" data-part="etapas">Por Etapa de Edad</button>
+                <button type="button" class="sub-tab" data-part="especies">Por Especie y Sexo</button>
+                <button type="button" class="sub-tab" data-part="sectores">Por Sector</button>
+                <button type="button" class="sub-tab" data-part="veterinario">Control Veterinario</button>
+                <button type="button" class="sub-tab" data-part="insumos">Insumos Recibidos</button>
+            </div>
+
+            <div id="resumen-part-container">
+                <p>Cargando...</p>
+            </div>
+        </section>
+
+        <!-- ==================== 2. ANIMALES (TABLA PAGINADA + DETALLE) ==================== -->
+        <section id="view-animales" class="dashboard-view">
+            <div class="view-header">
+                <h1>Censo de Animales</h1>
+                <span id="animales-count-label">Cargando...</span>
+            </div>
+
+            <form id="animales-filter-form" class="filters-bar">
+                <div class="filter-group search-wide">
+                    <label for="filter-animal-search">Buscar</label>
+                    <input type="text" id="filter-animal-search" placeholder="Código, señas, temperamento...">
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-animal-especie">Especie</label>
+                    <select id="filter-animal-especie">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-animal-sexo">Sexo</label>
+                    <select id="filter-animal-sexo">
+                        <option value="">Todos</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Hembra">Hembra</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-animal-etapa">Etapa</label>
+                    <select id="filter-animal-etapa">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-animal-sector">Sector</label>
+                    <select id="filter-animal-sector">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-animal-estado">Estado</label>
+                    <select id="filter-animal-estado">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <button type="button" id="btn-reset-animales" class="btn">Limpiar</button>
+                </div>
+            </form>
+
+            <div id="animales-table-container">
+                <p>Cargando animales...</p>
+            </div>
+
+            <div class="pagination-bar" id="animales-pagination"></div>
+        </section>
+
+        <!-- ==================== 3. DONACIONES ==================== -->
+        <section id="view-donaciones" class="dashboard-view">
+            <div class="view-header">
+                <h1>Donaciones e Insumos</h1>
+                <span id="donaciones-count-label">Cargando...</span>
+            </div>
+
+            <form id="donaciones-filter-form" class="filters-bar">
+                <div class="filter-group search-wide">
+                    <label for="filter-donacion-search">Buscar</label>
+                    <input type="text" id="filter-donacion-search" placeholder="Código, producto, donante...">
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-donacion-tipo">Tipo de Insumo</label>
+                    <select id="filter-donacion-tipo">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-donacion-desde">Desde</label>
+                    <input type="date" id="filter-donacion-desde">
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-donacion-hasta">Hasta</label>
+                    <input type="date" id="filter-donacion-hasta">
+                </div>
+
+                <div class="filter-group">
+                    <button type="button" id="btn-reset-donaciones" class="btn">Limpiar</button>
+                </div>
+            </form>
+
+            <div id="donaciones-list-container">
+                <p>Cargando donaciones...</p>
+            </div>
+        </section>
+
+        <!-- ==================== 4. DATOS DEL REFUGIO (POR PARTES) ==================== -->
+        <section id="view-refugio" class="dashboard-view">
+            <div class="view-header">
+                <h1>Información del Refugio</h1>
+                <span>Datos institucionales y operativos</span>
+            </div>
+
+            <div class="sub-nav" id="refugio-subnav">
+                <button type="button" class="sub-tab active" data-part="institucional">Datos Institucionales</button>
+                <button type="button" class="sub-tab" data-part="capacidad">Capacidad y Consumo de Alimento</button>
+            </div>
+
+            <div id="refugio-part-container">
+                <p>Cargando...</p>
+            </div>
+        </section>
+
+        <!-- ==================== MODAL FICHA DE ANIMAL ==================== -->
+        <div id="animal-details-modal" class="modal">
+            <div class="modal-content">
+                <button type="button" class="close-button" title="Cerrar">Cerrar</button>
+                <div class="modal-body">
+                    <p>Cargando...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
