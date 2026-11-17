@@ -124,6 +124,27 @@ const QUERIES = {
 // --- RUTA GET /api/resumen ---
 // Devuelve todas las métricas de Resumen_Consultas en un solo llamado usando Native Queries
 router.get('/', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener el dashboard estadístico completo (Resumen_Consultas)'
+        #swagger.description = 'Ejecuta todas las consultas de agregación en paralelo y retorna en un solo objeto los KPIs generales, desglose por especie/sexo, etapas de edad, estados de adopción, sectores, control veterinario e insumos recibidos.'
+        #swagger.responses[200] = {
+            description: 'Dashboard estadístico consolidado.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ResumenDashboard' }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno del servidor al obtener el resumen.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const [
             kpis,
@@ -160,6 +181,27 @@ router.get('/', async (req, res) => {
 
 // --- Endpoints individuales por cada bloque de resumen ---
 router.get('/kpis', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener indicadores clave (KPIs) generales'
+        #swagger.description = 'Devuelve los totales principales del refugio: total de animales censados, perros, gatos, disponibles para adopción, esterilizados al día y donaciones registradas.'
+        #swagger.responses[200] = {
+            description: 'KPIs generales del refugio.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ResumenKPIs' }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno al obtener KPIs.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const kpis = await db.queryOne(QUERIES.kpis);
         res.json(kpis);
@@ -170,6 +212,30 @@ router.get('/kpis', async (req, res) => {
 });
 
 router.get('/especies', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener resumen poblacional y de consumo por especie y sexo'
+        #swagger.description = 'Devuelve la distribución de machos y hembras censados, población total real en el refugio, capacidad máxima, porcentaje de ocupación y consumo de alimento en kg por especie.'
+        #swagger.responses[200] = {
+            description: 'Resumen por especie y sexo.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/ResumenEspecieSexo' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno al obtener resumen por especie.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const result = await db.query(QUERIES.porEspecieSexo);
         res.json(result.rows);
@@ -180,6 +246,30 @@ router.get('/especies', async (req, res) => {
 });
 
 router.get('/etapas', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener distribución de animales por etapa de edad'
+        #swagger.description = 'Agrupa la población censada según su etapa de vida (Cachorro, Joven, Adulto, Senior) incluyendo el porcentaje sobre el total.'
+        #swagger.responses[200] = {
+            description: 'Resumen por etapas de edad.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/ResumenEtapa' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno al obtener resumen por etapas.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const result = await db.query(QUERIES.porEtapa);
         res.json(result.rows);
@@ -190,6 +280,30 @@ router.get('/etapas', async (req, res) => {
 });
 
 router.get('/estados', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener distribución de animales por estado actual'
+        #swagger.description = 'Agrupa los animales según su estado de adopción o situación clínica (Disponible, En tratamiento, Hogar temporal, Adoptado).'
+        #swagger.responses[200] = {
+            description: 'Resumen por estados de adopción/internación.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/ResumenEstado' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno al obtener resumen por estados.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const result = await db.query(QUERIES.porEstado);
         res.json(result.rows);
@@ -200,6 +314,30 @@ router.get('/estados', async (req, res) => {
 });
 
 router.get('/sectores', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener distribución de animales por sector del refugio'
+        #swagger.description = 'Agrupa los animales según el sector físico en el que habitan (Patio Principal, Sala Max, Jaula de cachorros, Catio).'
+        #swagger.responses[200] = {
+            description: 'Resumen por sectores físicos.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/ResumenSector' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno al obtener resumen por sectores.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const result = await db.query(QUERIES.porSector);
         res.json(result.rows);
@@ -210,6 +348,30 @@ router.get('/sectores', async (req, res) => {
 });
 
 router.get('/veterinario', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener resumen de cobertura de control veterinario'
+        #swagger.description = 'Compara la cantidad y porcentaje de animales al día ("Sí") frente a pendientes/parciales/no en Esterilizado, Vacunación y Desparasitación.'
+        #swagger.responses[200] = {
+            description: 'Resumen de control veterinario.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/ResumenControlVeterinario' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno al obtener resumen veterinario.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const result = await db.query(QUERIES.controlVeterinario);
         res.json(result.rows);
@@ -220,6 +382,30 @@ router.get('/veterinario', async (req, res) => {
 });
 
 router.get('/insumos', async (req, res) => {
+    /*
+        #swagger.tags = ['Resumen y Estadísticas']
+        #swagger.summary = 'Obtener totalizador de donaciones por tipo de insumo'
+        #swagger.description = 'Suma la cantidad de registros y el total recibido por cada categoría del catálogo tipos_insumo.'
+        #swagger.responses[200] = {
+            description: 'Resumen acumulado de insumos recibidos.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: { $ref: '#/components/schemas/ResumenInsumo' }
+                    }
+                }
+            }
+        }
+        #swagger.responses[500] = {
+            description: 'Error interno al obtener resumen de insumos.',
+            content: {
+                'application/json': {
+                    schema: { $ref: '#/components/schemas/ErrorServidor' }
+                }
+            }
+        }
+    */
     try {
         const result = await db.query(QUERIES.insumosRecibidos);
         res.json(result.rows);

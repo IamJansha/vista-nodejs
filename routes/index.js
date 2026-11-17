@@ -20,7 +20,8 @@ router.use('/api-docs', swaggerUi.serve, (req, res, next) => {
         customSiteTitle: 'API Refugio Los Pikilines - Swagger UI',
         swaggerOptions: {
             docExpansion: 'list',
-            defaultModelsExpandDepth: -1
+            defaultModelsExpandDepth: 1,
+            defaultModelExpandDepth: 1
         }
     })(req, res, next);
 });
