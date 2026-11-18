@@ -1,6 +1,6 @@
 {
   "name": "pikilines-api",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "API REST y Vista para la Base de Datos del Refugio Los Pikilines",
   "main": "index.js",
   "scripts": {
